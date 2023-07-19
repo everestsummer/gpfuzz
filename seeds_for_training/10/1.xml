@@ -1,0 +1,289 @@
+<ns0:stylesheet xmlns:ns0="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<ns0:variable name="binarydatamap" select="document('base64_binarydatamap.xml')" />
+	<ns0:key name="asciiToBinary" match="item" use="ascii" />
+
+	
+	<ns0:template name="b64:encode">
+		<ns0:param name="asciiString" />
+		<ns0:param name="padding" select="true()" />
+		<ns0:param name="urlsafe" select="false()" />
+		<ns0:variable name="result">
+			<ns0:variable name="binary">
+				<ns0:call-template name="local:asciiStringToBinary">
+					<ns0:with-param name="string" select="$asciiString" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:binaryToBase64">
+				<ns0:with-param name="binary" select="$binary" />
+				<ns0:with-param name="padding" select="$padding" />
+			</ns0:call-template>
+		</ns0:variable>
+		<ns0:choose>
+			<ns0:when test="$urlsafe">
+				<ns0:value-of select="translate($result,'+/','-_')" />
+			</ns0:when>
+			<ns0:otherwise>
+				<ns0:value-of select="$result" />
+			</ns0:otherwise>
+		</ns0:choose>
+	</ns0:template>
+	
+	<ns0:template name="local:binaryToBase64">
+		<ns0:param name="binary" />
+		<ns0:param name="padding" />
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 1, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 7, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 13, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 19, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:variable name="remaining" select="substring($binary, 25)" />
+		<ns0:if test="$remaining != ''">
+			<ns0:call-template name="local:binaryToBase64">
+				<ns0:with-param name="binary" select="$remaining" />
+				<ns0:with-param name="padding" select="$padding" />
+			</ns0:call-template>
+		</ns0:if>		
+	</ns0:template>
+	
+	<ns0:template name="local:sixbitToBase64">
+		<ns0:param name="sixbit" />
+		<ns0:param name="padding" />
+		<ns0:variable name="realsixbit">
+			<ns0:value-of select="$sixbit" />
+			<ns0:if test="string-length($sixbit)=1">00000</ns0:if>
+			<ns0:if test="string-length($sixbit)=2">0000</ns0:if>
+			<ns0:if test="string-length($sixbit)=3">000</ns0:if>
+			<ns0:if test="string-length($sixbit)=4">00</ns0:if>
+			<ns0:if test="string-length($sixbit)=5">0</ns0:if>
+		</ns0:variable>
+		<ns0:for-each select="$binarydatamap">
+			<ns0:value-of select="key('binaryToBase64', $realsixbit)/base64" />
+		</ns0:for-each>
+		<ns0:if test="string-length($realsixbit) = 0 and $padding">=</ns0:if>
+	</ns0:template>
+
+	
+	<ns0:template name="local:binaryToDecimal">
+		<ns0:param name="binary" />
+		<ns0:param name="sum" select="0" />
+		<ns0:param name="index" select="0" />
+		<ns0:choose>
+			<ns0:when test="substring($binary,string-length($binary) - 1) != ''">
+				<ns0:variable name="power">
+					<ns0:call-template name="local:pow">
+						<ns0:with-param name="m" select="2" />
+						<ns0:with-param name="n" select="$index" />
+						<ns0:with-param name="result" select="1" />
+					</ns0:call-template>
+				</ns0:variable>
+				<ns0:call-template name="local:binaryToDecimal">
+					<ns0:with-param name="binary" select="substring($binary, 1, string-length($binary) - 1)" />
+					<ns0:with-param name="sum" select="$sum + substring($binary,string-length($binary) ) * $power" />
+					<ns0:with-param name="index" select="$index + 1" />
+				</ns0:call-template>
+			</ns0:when>
+			<ns0:otherwise>
+				<ns0:value-of select="$sum" />
+			</ns0:otherwise>
+		</ns0:choose>
+	</ns0:template>
+
+	<ns0:template name="local:pow">
+		<ns0:param name="m" />
+		<ns0:param name="n" />
+		<ns0:param name="result" />
+		<ns0:choose>
+			<ns0:when test="$n = 0">
+				<ns0:value-of select="$result" />
+			</ns0:when>
+			<ns0:otherwise>
+				<ns0:call-template name="local:pow">
+					<ns0:with-param name="m" select="$m" />
+					<ns0:with-param name="n" select="$n - 1" />
+					<ns0:with-param name="result" select="$result * $m" />
+				</ns0:call-template>				
+			</ns0:otherwise>			
+		</ns0:choose>
+		
+	</ns0:template>
+
+	
+	<ns0:template name="local:asciiStringToBinary">
+		<ns0:param name="string" />
+		<ns0:variable name="char" select="substring($string, 1, 1)" />
+		<ns0:if test="$char != ''">
+			<ns0:for-each select="$binarydatamap">
+				<ns0:value-of select="key('asciiToBinary', $char)/binary" />
+			</ns0:for-each>
+		</ns0:if>
+		<ns0:variable name="remaining" select="substring($string, 2)" />
+		<ns0:if test="$remaining != ''">
+			<ns0:call-template name="local:asciiStringToBinary">
+				<ns0:with-param name="string" select="$remaining" />
+			</ns0:call-template>
+		</ns0:if>
+	</ns0:template>
+
+	
+	<ns0:template name="local:decimalToBinary">
+		<ns0:param name="decimal" />
+		<ns0:param name="prev" select="''" />
+
+		<ns0:variable name="divresult" select="floor($decimal div 2)" />
+		<ns0:variable name="modresult" select="$decimal mod 2" />
+		<ns0:choose>
+			<ns0:when test="$divresult &gt; 1">
+				<ns0:call-template name="local:decimalToBinary">
+					<ns0:with-param name="decimal" select="$divresult" />
+					<ns0:with-param name="prev" select="concat($modresult, $prev)" />
+				</ns0:call-template>
+			</ns0:when>
+			<ns0:when test="$divresult = 0">
+				<ns0:value-of select="concat($modresult, $prev)" />
+			</ns0:when>
+			<ns0:when test="$divresult = 1">
+				<ns0:text>1</ns0:text>
+				<ns0:value-of select="concat($modresult, $prev)" />
+			</ns0:when>
+		</ns0:choose>
+	</ns0:template>
+	
+	<ns0:template name="b64:decode">
+		<ns0:param name="base64String" />
+		
+		<ns0:variable name="base64StringUniversal" select="translate($base64String, '-_','+/')" />
+		
+		<ns0:if test="not(contains(substring($base64StringUniversal, string-length($base64StringUniversal) - 1), '='))">
+			<ns0:variable name="binaryBase64String">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="$base64StringUniversal" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="$binaryBase64String" />
+			</ns0:call-template>
+		</ns0:if>
+
+		
+		<ns0:variable name="secondLastChar" select="substring($base64StringUniversal, string-length($base64StringUniversal) - 1, 1)" />
+		<ns0:variable name="lastChar" select="substring($base64StringUniversal, string-length($base64StringUniversal), 1)" />
+
+		
+		<ns0:if test="($secondLastChar != '=') and ($lastChar = '=')">
+			<ns0:variable name="binaryBase64String">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="substring-before($base64StringUniversal,'=')" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="$binaryBase64String" />
+			</ns0:call-template>
+			<ns0:variable name="partialBinary">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="substring($base64StringUniversal, string-length($base64StringUniversal) - 3, 3)" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="substring($partialBinary, 1, 6)" />
+			</ns0:call-template>
+		</ns0:if>
+
+		
+		<ns0:if test="($secondLastChar = '=') and ($lastChar = '=')">
+			
+			
+			<ns0:variable name="binaryBase64String">
+				<ns0:call-template name="local:base64StringToBinary">
+					
+					<ns0:with-param name="string" select="substring-before($base64StringUniversal,'==')" />
+				</ns0:call-template>
+			</ns0:variable>
+			
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="$binaryBase64String" />
+			</ns0:call-template>
+			<ns0:variable name="partialBinary">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="substring($base64StringUniversal, string-length($base64StringUniversal) - 3, 2)" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="substring($partialBinary, 1, 7)" />
+			</ns0:call-template>
+		</ns0:if>
+	</ns0:template>
+	
+	<ns0:template name="local:base64BinaryStringToAscii">
+		<ns0:param name="binaryString" />
+		<ns0:variable name="binaryPortion16" select="substring($binaryString, 1, 16)" />
+		<ns0:variable name="binaryPortion8" select="substring($binaryString, 1, 8)" />
+		<ns0:if test="$binaryPortion8 != ''">
+			<ns0:variable name="decoded8" select="$binarydatamap/datamap/asciibinary/item[binary = $binaryPortion8]/ascii" />
+			<ns0:variable name="decoded16" select="$binarydatamap/datamap/asciibinary/item[binary = $binaryPortion16]/ascii" />
+			<ns0:choose>
+				<ns0:when test="$decoded8 != ''">
+					
+					<ns0:value-of select="$decoded8" />
+					<ns0:call-template name="local:base64BinaryStringToAscii">
+						<ns0:with-param name="binaryString" select="substring($binaryString, 9)" />
+					</ns0:call-template>
+				</ns0:when>
+				<ns0:otherwise>
+					
+					<ns0:value-of select="$decoded16" />
+					<ns0:call-template name="local:base64BinaryStringToAscii">
+						<ns0:with-param name="binaryString" select="substring($binaryString, 17)" />
+					</ns0:call-template>
+				</ns0:otherwise>
+			</ns0:choose>
+			
+		</ns0:if>
+	</ns0:template>
+	
+	<ns0:template name="local:base64StringToBinary">
+		<ns0:param name="string" />
+		<ns0:variable name="base64Portion" select="substring($string, 1, 1)" />
+		<ns0:if test="$base64Portion != ''">
+			<ns0:variable name="binary" select="$binarydatamap/datamap/binarybase64/item[base64 = $base64Portion]/binary" />
+			<ns0:call-template name="local:padZeros">
+				<ns0:with-param name="string" select="$binary" />
+				<ns0:with-param name="no" select="6 - string-length($binary)" />
+			</ns0:call-template>
+		</ns0:if>
+		<ns0:if test="substring($string, 2) != ''">
+			<ns0:call-template name="local:base64StringToBinary">
+				<ns0:with-param name="string" select="substring($string, 2)" />
+			</ns0:call-template>
+		</ns0:if>
+	</ns0:template>
+
+	
+	<ns0:template name="local:padZeros">
+		<ns0:param name="string" />
+		<ns0:param name="no" />
+
+		<ns0:if test="$no &gt; 0">
+			<ns0:call-template name="local:padZeros">
+				<ns0:with-param name="string" select="concat('0', $string)" />
+				<ns0:with-param name="no" select="6 - string-length($string) - 1" />
+			</ns0:call-template>
+		</ns0:if>
+		<ns0:if test="$no = 0">
+			<ns0:value-of select="$string" />
+		</ns0:if>
+	</ns0:template>
+
+
+
+</ns0:stylesheet>

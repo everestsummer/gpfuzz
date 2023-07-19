@@ -1,0 +1,212 @@
+<project name="XSLTJSON" default="examples">
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<property name="xsltjson.lib" value="lib" />
+	<property name="xsltjson.config" value="conf" />
+	
+	<path id="saxon.classpath">
+		<fileset dir="${xsltjson.lib}/saxon">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="xalan.classpath">
+		<fileset dir="${xsltjson.lib}/xalan">
+			<include name="*.jar" />
+		</fileset>
+	</path>	
+
+	<target name="init">
+		<mkdir dir="${xsltjson.build}" />
+	</target>
+	
+	<target name="examples" depends="init">
+		<xslt basedir="input/examples" destdir="${xsltjson.build}/examples" extension=".json" style="${xsltjson.config}/xml-to-json.xsl">
+			<classpath>
+				<path refid="saxon.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+	<target name="examples-xalan">
+		<xslt basedir="input/examples" destdir="${xsltjson.build}/examples" extension=".json" style="${xsltjson.config}/xml-to-jsonml.xsl">
+			<classpath>
+				<path refid="xalan.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+
+	<target name="test" depends="init">
+		<xslt basedir="input/tests" destdir="${xsltjson.build}/tests" extension=".xml" style="${xsltjson.config}/test.xsl">
+			<classpath>
+				<path refid="saxon.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+	<target name="clean">
+		<delete dir="${xsltjson.build}" />
+	</target>
+<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.build" value="output"><453 name="xsltjson.build" value="output"><5845 name="xsltjson.build" value="output"><1069 name="xsltjson.build" value="output"><8481 name="xsltjson.build" value="output"><7108 name="xsltjson.build" value="output"><5198 name="xsltjson.build" value="output"><6010 name="xsltjson.build" value="output"><4790 name="xsltjson.build" value="output"><9390 name="xsltjson.build" value="output"><1083 name="xsltjson.build" value="output"><6839 name="xsltjson.build" value="output"><3995 name="xsltjson.build" value="output"><9791 name="xsltjson.build" value="output"><5648 name="xsltjson.build" value="output"><5314 name="xsltjson.build" value="output"><7451 name="xsltjson.build" value="output"><8769 name="xsltjson.build" value="output"><4891 name="xsltjson.build" value="output"><120 name="xsltjson.build" value="output"><5863 name="xsltjson.build" value="output"><4852 name="xsltjson.build" value="output"><7036 name="xsltjson.build" value="output"><4165 name="xsltjson.build" value="output"><5009 name="xsltjson.build" value="output"><9291 name="xsltjson.build" value="output"><88 name="xsltjson.build" value="output"><9042 name="xsltjson.build" value="output"><757 name="xsltjson.build" value="output"><2860 name="xsltjson.build" value="output"><1818 name="xsltjson.build" value="output"><9592 name="xsltjson.build" value="output"><1209 name="xsltjson.build" value="output"><6896 name="xsltjson.build" value="output"><930 name="xsltjson.build" value="output"><4723 name="xsltjson.build" value="output"><7424 name="xsltjson.build" value="output"><3877 name="xsltjson.build" value="output"><4516 name="xsltjson.build" value="output"><368 name="xsltjson.build" value="output"><1924 name="xsltjson.build" value="output"><776 name="xsltjson.build" value="output"><7410 name="xsltjson.build" value="output"><9766 name="xsltjson.build" value="output"><6585 name="xsltjson.build" value="output"><2220 name="xsltjson.build" value="output"><5654 name="xsltjson.build" value="output"><5830 name="xsltjson.build" value="output"><4078 name="xsltjson.build" value="output"><5834 name="xsltjson.build" value="output"><9639 name="xsltjson.build" value="output"><4829 name="xsltjson.build" value="output"><5432 name="xsltjson.build" value="output"><7826 name="xsltjson.build" value="output"><1500 name="xsltjson.build" value="output"><5316 name="xsltjson.build" value="output"><4758 name="xsltjson.build" value="output"><6697 name="xsltjson.build" value="output"><8380 name="xsltjson.build" value="output"><4829 name="xsltjson.build" value="output"><2477 name="xsltjson.build" value="output"><8644 name="xsltjson.build" value="output"><1927 name="xsltjson.build" value="output"><7280 name="xsltjson.build" value="output"><2352 name="xsltjson.build" value="output"><9200 name="xsltjson.build" value="output"><9264 name="xsltjson.build" value="output"><8992 name="xsltjson.build" value="output"><991 name="xsltjson.build" value="output"><6226 name="xsltjson.build" value="output"><3141 name="xsltjson.build" value="output"><8257 name="xsltjson.build" value="output"><2164 name="xsltjson.build" value="output"><5398 name="xsltjson.build" value="output"><2221 name="xsltjson.build" value="output"><1522 name="xsltjson.build" value="output"><3273 name="xsltjson.build" value="output"><1091 name="xsltjson.build" value="output"><3915 name="xsltjson.build" value="output"><7748 name="xsltjson.build" value="output" />
+	</3915>
+	</1091>
+	</3273>
+	</1522>
+	</2221>
+	</5398>
+	</2164>
+	</8257>
+	</3141>
+	</6226>
+	</991>
+	</8992>
+	</9264>
+	</9200>
+	</2352>
+	</7280>
+	</1927>
+	</8644>
+	</2477>
+	</4829>
+	</8380>
+	</6697>
+	</4758>
+	</5316>
+	</1500>
+	</7826>
+	</5432>
+	</4829>
+	</9639>
+	</5834>
+	</4078>
+	</5830>
+	</5654>
+	</2220>
+	</6585>
+	</9766>
+	</7410>
+	</776>
+	</1924>
+	</368>
+	</4516>
+	</3877>
+	</7424>
+	</4723>
+	</930>
+	</6896>
+	</1209>
+	</9592>
+	</1818>
+	</2860>
+	</757>
+	</9042>
+	</88>
+	</9291>
+	</5009>
+	</4165>
+	</7036>
+	</4852>
+	</5863>
+	</120>
+	</4891>
+	</8769>
+	</7451>
+	</5314>
+	</5648>
+	</9791>
+	</3995>
+	</6839>
+	</1083>
+	</9390>
+	</4790>
+	</6010>
+	</5198>
+	</7108>
+	</8481>
+	</1069>
+	</5845>
+	</453>
+	</property>
+	</project>

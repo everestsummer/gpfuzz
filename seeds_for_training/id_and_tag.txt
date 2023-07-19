@@ -1,0 +1,12 @@
+New class id  0  for class name:  bmpgenerated_samples
+New class id  1  for class name:  csvgenerated_samples
+New class id  2  for class name:  gifgenerated_samples
+New class id  3  for class name:  jpggenerated_samples
+New class id  4  for class name:  jsongenerated_samples
+New class id  5  for class name:  mp3generated_samples
+New class id  6  for class name:  mp4generated_samples
+New class id  7  for class name:  pcapgenerated_samples
+New class id  8  for class name:  pnggenerated_samples
+New class id  9  for class name:  wavgenerated_samples
+New class id  10  for class name:  xmlgenerated_and_collected_samples
+New class id  11  for class name:  zipgenerated_samples

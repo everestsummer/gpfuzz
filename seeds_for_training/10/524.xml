@@ -1,0 +1,136 @@
+<project name="XSLTJSON" default="examples">
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<property name="xsltjson.build" value="output"><6056 name="xsltjson.build" value="output"><8318 name="xsltjson.build" value="output"><2563 name="xsltjson.build" value="output"><1440 name="xsltjson.build" value="output"><4006 name="xsltjson.build" value="output"><7388 name="xsltjson.build" value="output"><9115 name="xsltjson.build" value="output"><4136 name="xsltjson.build" value="output"><9157 name="xsltjson.build" value="output"><4316 name="xsltjson.build" value="output"><7714 name="xsltjson.build" value="output"><6891 name="xsltjson.build" value="output"><6764 name="xsltjson.build" value="output"><4126 name="xsltjson.build" value="output"><3394 name="xsltjson.build" value="output"><9114 name="xsltjson.build" value="output"><7553 name="xsltjson.build" value="output"><2511 name="xsltjson.build" value="output"><974 name="xsltjson.build" value="output"><3847 name="xsltjson.build" value="output"><5815 name="xsltjson.build" value="output"><4042 name="xsltjson.build" value="output"><3989 name="xsltjson.build" value="output"><1902 name="xsltjson.build" value="output"><4313 name="xsltjson.build" value="output"><4331 name="xsltjson.build" value="output"><866 name="xsltjson.build" value="output"><3467 name="xsltjson.build" value="output"><9551 name="xsltjson.build" value="output"><5381 name="xsltjson.build" value="output"><8850 name="xsltjson.build" value="output"><3197 name="xsltjson.build" value="output"><1715 name="xsltjson.build" value="output"><7073 name="xsltjson.build" value="output"><8178 name="xsltjson.build" value="output"><224 name="xsltjson.build" value="output"><2633 name="xsltjson.build" value="output"><3613 name="xsltjson.build" value="output"><6311 name="xsltjson.build" value="output"><5579 name="xsltjson.build" value="output"><8321 name="xsltjson.build" value="output"><4142 name="xsltjson.build" value="output"><777 name="xsltjson.build" value="output"><8290 name="xsltjson.build" value="output"><1023 name="xsltjson.build" value="output"><4191 name="xsltjson.build" value="output"><2891 name="xsltjson.build" value="output"><7715 name="xsltjson.build" value="output"><9038 name="xsltjson.build" value="output"><1933 name="xsltjson.build" value="output"><6531 name="xsltjson.build" value="output"><4918 name="xsltjson.build" value="output"><72 name="xsltjson.build" value="output"><6438 name="xsltjson.build" value="output"><1393 name="xsltjson.build" value="output"><6498 name="xsltjson.build" value="output"><6774 name="xsltjson.build" value="output"><8141 name="xsltjson.build" value="output"><6297 name="xsltjson.build" value="output"><2028 name="xsltjson.build" value="output"><7049 name="xsltjson.build" value="output"><1804 name="xsltjson.build" value="output"><8820 name="xsltjson.build" value="output"><4973 name="xsltjson.build" value="output"><2691 name="xsltjson.build" value="output"><3579 name="xsltjson.build" value="output"><138 name="xsltjson.build" value="output"><4763 name="xsltjson.build" value="output"><3650 name="xsltjson.build" value="output"><372 name="xsltjson.build" value="output"><591 name="xsltjson.build" value="output"><3441 name="xsltjson.build" value="output"><2315 name="xsltjson.build" value="output"><2210 name="xsltjson.build" value="output"><5615 name="xsltjson.build" value="output"><576 name="xsltjson.build" value="output"><8956 name="xsltjson.build" value="output"><174 name="xsltjson.build" value="output"><2144 name="xsltjson.build" value="output"><1954 name="xsltjson.build" value="output"><8177 name="xsltjson.build" value="output"><6669 name="xsltjson.build" value="output" />
+	</8177>
+	</1954>
+	</2144>
+	</174>
+	</8956>
+	</576>
+	</5615>
+	</2210>
+	</2315>
+	</3441>
+	</591>
+	</372>
+	</3650>
+	</4763>
+	</138>
+	</3579>
+	</2691>
+	</4973>
+	</8820>
+	</1804>
+	</7049>
+	</2028>
+	</6297>
+	</8141>
+	</6774>
+	</6498>
+	</1393>
+	</6438>
+	</72>
+	</4918>
+	</6531>
+	</1933>
+	</9038>
+	</7715>
+	</2891>
+	</4191>
+	</1023>
+	</8290>
+	</777>
+	</4142>
+	</8321>
+	</5579>
+	</6311>
+	</3613>
+	</2633>
+	</224>
+	</8178>
+	</7073>
+	</1715>
+	</3197>
+	</8850>
+	</5381>
+	</9551>
+	</3467>
+	</866>
+	</4331>
+	</4313>
+	</1902>
+	</3989>
+	</4042>
+	</5815>
+	</3847>
+	</974>
+	</2511>
+	</7553>
+	</9114>
+	</3394>
+	</4126>
+	</6764>
+	</6891>
+	</7714>
+	</4316>
+	</9157>
+	</4136>
+	</9115>
+	</7388>
+	</4006>
+	</1440>
+	</2563>
+	</8318>
+	</6056>
+	</property>
+	<property name="xsltjson.lib" value="lib" />
+	<property name="xsltjson.config" value="conf" />
+	
+	<path id="saxon.classpath">
+		<fileset dir="${xsltjson.lib}/saxon">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="xalan.classpath">
+		<fileset dir="${xsltjson.lib}/xalan">
+			<include name="*.jar" />
+		</fileset>
+	</path>	
+
+	<target name="init">
+		<mkdir dir="${xsltjson.build}" />
+	</target>
+	
+	<target name="examples" depends="init">
+		<xslt basedir="input/examples" destdir="${xsltjson.build}/examples" extension=".json" style="${xsltjson.config}/xml-to-json.xsl">
+			<classpath>
+				<path refid="saxon.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+	<target name="examples-xalan">
+		<xslt basedir="input/examples" destdir="${xsltjson.build}/examples" extension=".json" style="${xsltjson.config}/xml-to-jsonml.xsl">
+			<classpath>
+				<path refid="xalan.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+
+	<target name="test" depends="init">
+		<xslt basedir="input/tests" destdir="${xsltjson.build}/tests" extension=".xml" style="${xsltjson.config}/test.xsl">
+			<classpath>
+				<path refid="saxon.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+	<target name="clean">
+		<delete dir="${xsltjson.build}" />
+	</target>
+</project>

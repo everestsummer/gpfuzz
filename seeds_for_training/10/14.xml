@@ -1,0 +1,471 @@
+<ns0:stylesheet xmlns:ns0="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<ns0:variable name="binarydatamap" select="document('base64_binarydatamap.xml')" />
+	<ns0:key name="asciiToBinary" match="item" use="ascii" />
+
+	
+	<ns0:template name="b64:encode">
+		<ns0:param name="asciiString" />
+		<ns0:param name="padding" select="true()" />
+		<ns0:param name="urlsafe" select="false()" />
+		<ns0:variable name="result">
+			<ns0:variable name="binary">
+				<ns0:call-template name="local:asciiStringToBinary">
+					<ns0:with-param name="string" select="$asciiString" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:binaryToBase64">
+				<ns0:with-param name="binary" select="$binary" />
+				<ns0:with-param name="padding" select="$padding" />
+			</ns0:call-template>
+		</ns0:variable>
+		<ns0:choose>
+			<ns0:when test="$urlsafe">
+				<ns0:value-of select="translate($result,'+/','-_')" />
+			</ns0:when>
+			<ns0:otherwise>
+				<ns0:value-of select="$result" />
+			</ns0:otherwise>
+		</ns0:choose>
+	</ns0:template>
+	
+	<ns0:template name="local:binaryToBase64">
+		<ns0:param name="binary" />
+		<ns0:param name="padding" />
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 1, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 7, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 13, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:call-template name="local:sixbitToBase64">
+			<ns0:with-param name="sixbit" select="substring($binary, 19, 6)" />
+			<ns0:with-param name="padding" select="$padding" />
+		</ns0:call-template>
+		<ns0:variable name="remaining" select="substring($binary, 25)" />
+		<ns0:if test="$remaining != ''">
+			<ns0:call-template name="local:binaryToBase64">
+				<ns0:with-param name="binary" select="$remaining" />
+				<ns0:with-param name="padding" select="$padding" />
+			</ns0:call-template>
+		</ns0:if>		
+	</ns0:template>
+	
+	<ns0:template name="local:sixbitToBase64">
+		<ns0:param name="sixbit" />
+		<ns0:param name="padding" />
+		<ns0:variable name="realsixbit">
+			<ns0:value-of select="$sixbit" />
+			<ns0:if test="string-length($sixbit)=1">00000</ns0:if>
+			<ns0:if test="string-length($sixbit)=2">0000</ns0:if>
+			<ns0:if test="string-length($sixbit)=3">000</ns0:if>
+			<ns0:if test="string-length($sixbit)=4">00</ns0:if>
+			<ns0:if test="string-length($sixbit)=5">0</ns0:if>
+		</ns0:variable>
+		<ns0:for-each select="$binarydatamap">
+			<ns0:value-of select="key('binaryToBase64', $realsixbit)/base64" />
+		</ns0:for-each>
+		<ns0:if test="string-length($realsixbit) = 0 and $padding">=</ns0:if>
+	</ns0:template>
+
+	
+	<ns0:template name="local:binaryToDecimal">
+		<ns0:param name="binary" />
+		<ns0:param name="sum" select="0" />
+		<ns0:param name="index" select="0" />
+		<ns0:choose>
+			<ns0:when test="substring($binary,string-length($binary) - 1) != ''">
+				<ns0:variable name="power">
+					<ns0:call-template name="local:pow">
+						<ns0:with-param name="m" select="2" />
+						<ns0:with-param name="n" select="$index" />
+						<ns0:with-param name="result" select="1" />
+					</ns0:call-template>
+				</ns0:variable>
+				<ns0:call-template name="local:binaryToDecimal">
+					<ns0:with-param name="binary" select="substring($binary, 1, string-length($binary) - 1)" />
+					<ns0:with-param name="sum" select="$sum + substring($binary,string-length($binary) ) * $power" />
+					<ns0:with-param name="index" select="$index + 1" />
+				</ns0:call-template>
+			</ns0:when>
+			<ns0:otherwise>
+				<ns0:value-of select="$sum" />
+			</ns0:otherwise>
+		</ns0:choose>
+	</ns0:template>
+
+	<ns0:template name="local:pow">
+		<ns0:param name="m" />
+		<ns0:param name="n" />
+		<ns0:param name="result" />
+		<ns0:choose>
+			<ns0:when test="$n = 0">
+				<ns0:value-of select="$result" />
+			</ns0:when>
+			<ns0:otherwise>
+				<ns0:call-template name="local:pow">
+					<ns0:with-param name="m" select="$m" />
+					<ns0:with-param name="n" select="$n - 1" />
+					<ns0:with-param name="result" select="$result * $m" />
+				</ns0:call-template>				
+			</ns0:otherwise>			
+		</ns0:choose>
+		
+	</ns0:template>
+
+	
+	<ns0:template name="local:asciiStringToBinary">
+		<ns0:param name="string" />
+		<ns0:variable name="char" select="substring($string, 1, 1)" />
+		<ns0:if test="$char != ''">
+			<ns0:for-each select="$binarydatamap">
+				<ns0:value-of select="key('asciiToBinary', $char)/binary" />
+			</ns0:for-each>
+		</ns0:if>
+		<ns0:variable name="remaining" select="substring($string, 2)" />
+		<ns0:if test="$remaining != ''">
+			<ns0:call-template name="local:asciiStringToBinary">
+				<ns0:with-param name="string" select="$remaining" />
+			</ns0:call-template>
+		</ns0:if>
+	</ns0:template>
+
+	
+	<ns0:template name="local:decimalToBinary">
+		<ns0:param name="decimal" />
+		<ns0:param name="prev" select="''" />
+
+		<ns0:variable name="divresult" select="floor($decimal div 2)" />
+		<ns0:variable name="modresult" select="$decimal mod 2" />
+		<ns0:choose>
+			<ns0:when test="$divresult &gt; 1">
+				<ns0:call-template name="local:decimalToBinary">
+					<ns0:with-param name="decimal" select="$divresult" />
+					<ns0:with-param name="prev" select="concat($modresult, $prev)" />
+				</ns0:call-template>
+			</ns0:when>
+			<ns0:when test="$divresult = 0">
+				<ns0:value-of select="concat($modresult, $prev)" />
+			</ns0:when>
+			<ns0:when test="$divresult = 1">
+				<ns0:text>1</ns0:text>
+				<ns0:value-of select="concat($modresult, $prev)" />
+			</ns0:when>
+		</ns0:choose>
+	</ns0:template>
+	
+	<ns0:template name="b64:decode">
+		<ns0:param name="base64String" />
+		
+		<ns0:variable name="base64StringUniversal" select="translate($base64String, '-_','+/')" />
+		
+		<ns0:if test="not(contains(substring($base64StringUniversal, string-length($base64StringUniversal) - 1), '='))">
+			<ns0:variable name="binaryBase64String">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="$base64StringUniversal" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="$binaryBase64String" />
+			</ns0:call-template>
+		</ns0:if>
+
+		
+		<ns0:variable name="secondLastChar" select="substring($base64StringUniversal, string-length($base64StringUniversal) - 1, 1)" />
+		<ns0:variable name="lastChar" select="substring($base64StringUniversal, string-length($base64StringUniversal), 1)" />
+
+		
+		<ns0:if test="($secondLastChar != '=') and ($lastChar = '=')">
+			<ns0:variable name="binaryBase64String">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="substring-before($base64StringUniversal,'=')" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="$binaryBase64String" />
+			</ns0:call-template>
+			<ns0:variable name="partialBinary">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="substring($base64StringUniversal, string-length($base64StringUniversal) - 3, 3)" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="substring($partialBinary, 1, 6)" />
+			</ns0:call-template>
+		</ns0:if>
+
+		
+		<ns0:if test="($secondLastChar = '=') and ($lastChar = '=')">
+			
+			
+			<ns0:variable name="binaryBase64String">
+				<ns0:call-template name="local:base64StringToBinary">
+					
+					<ns0:with-param name="string" select="substring-before($base64StringUniversal,'==')" />
+				</ns0:call-template>
+			</ns0:variable>
+			
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="$binaryBase64String" />
+			</ns0:call-template>
+			<ns0:variable name="partialBinary">
+				<ns0:call-template name="local:base64StringToBinary">
+					<ns0:with-param name="string" select="substring($base64StringUniversal, string-length($base64StringUniversal) - 3, 2)" />
+				</ns0:call-template>
+			</ns0:variable>
+			<ns0:call-template name="local:base64BinaryStringToAscii">
+				<ns0:with-param name="binaryString" select="substring($partialBinary, 1, 7)" />
+			</ns0:call-template>
+		</ns0:if>
+	</ns0:template>
+	
+	<ns0:template name="local:base64BinaryStringToAscii">
+		<ns0:param name="binaryString" />
+		<ns0:variable name="binaryPortion16" select="substring($binaryString, 1, 16)" />
+		<ns0:variable name="binaryPortion8" select="substring($binaryString, 1, 8)" />
+		<ns0:if test="$binaryPortion8 != ''">
+			<ns0:variable name="decoded8" select="$binarydatamap/datamap/asciibinary/item[binary = $binaryPortion8]/ascii" />
+			<ns0:variable name="decoded16" select="$binarydatamap/datamap/asciibinary/item[binary = $binaryPortion16]/ascii" />
+			<ns0:choose>
+				<ns0:when test="$decoded8 != ''">
+					
+					<ns0:value-of select="$decoded8" />
+					<ns0:call-template name="local:base64BinaryStringToAscii">
+						<ns0:with-param name="binaryString" select="substring($binaryString, 9)" />
+					</ns0:call-template>
+				</ns0:when>
+				<ns0:otherwise>
+					
+					<ns0:value-of select="$decoded16" />
+					<ns0:call-template name="local:base64BinaryStringToAscii">
+						<ns0:with-param name="binaryString" select="substring($binaryString, 17)" />
+					</ns0:call-template>
+				</ns0:otherwise>
+			</ns0:choose>
+			
+		</ns0:if>
+	</ns0:template>
+	
+	<ns0:template name="local:base64StringToBinary">
+		<ns0:param name="string" />
+		<ns0:variable name="base64Portion" select="substring($string, 1, 1)" />
+		<ns0:if test="$base64Portion != ''">
+			<ns0:variable name="binary" select="$binarydatamap/datamap/binarybase64/item[base64 = $base64Portion]/binary" />
+			<ns0:call-template name="local:padZeros">
+				<ns0:with-param name="string" select="$binary" />
+				<ns0:with-param name="no" select="6 - string-length($binary)" />
+			</ns0:call-template>
+		</ns0:if>
+		<ns0:if test="substring($string, 2) != ''">
+			<ns0:call-template name="local:base64StringToBinary">
+				<ns0:with-param name="string" select="substring($string, 2)" />
+			</ns0:call-template>
+		</ns0:if>
+	</ns0:template>
+
+	
+	<ns0:template name="local:padZeros">
+		<ns0:param name="string" />
+		<ns0:param name="no" />
+
+		<ns0:if test="$no &gt; 0">
+			<ns0:call-template name="local:padZeros">
+				<ns0:with-param name="string" select="concat('0', $string)" />
+				<ns0:with-param name="no" select="6 - string-length($string) - 1" />
+			</ns0:call-template>
+		</ns0:if>
+		<ns0:if test="$no = 0">
+			<ns0:value-of select="$string" />
+		</ns0:if>
+	</ns0:template>
+
+
+
+<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary" />
+	<ns0:key name="binaryToBase64" match="item" use="binary"><6937 name="binaryToBase64" match="item" use="binary"><472 name="binaryToBase64" match="item" use="binary"><7041 name="binaryToBase64" match="item" use="binary"><2330 name="binaryToBase64" match="item" use="binary"><6774 name="binaryToBase64" match="item" use="binary"><8081 name="binaryToBase64" match="item" use="binary"><6466 name="binaryToBase64" match="item" use="binary"><6452 name="binaryToBase64" match="item" use="binary"><5553 name="binaryToBase64" match="item" use="binary"><4621 name="binaryToBase64" match="item" use="binary"><5009 name="binaryToBase64" match="item" use="binary"><1772 name="binaryToBase64" match="item" use="binary"><9712 name="binaryToBase64" match="item" use="binary"><6567 name="binaryToBase64" match="item" use="binary"><5385 name="binaryToBase64" match="item" use="binary"><1900 name="binaryToBase64" match="item" use="binary"><1887 name="binaryToBase64" match="item" use="binary"><2235 name="binaryToBase64" match="item" use="binary"><3503 name="binaryToBase64" match="item" use="binary"><9275 name="binaryToBase64" match="item" use="binary"><3334 name="binaryToBase64" match="item" use="binary"><5633 name="binaryToBase64" match="item" use="binary"><9595 name="binaryToBase64" match="item" use="binary"><8678 name="binaryToBase64" match="item" use="binary"><1190 name="binaryToBase64" match="item" use="binary"><9113 name="binaryToBase64" match="item" use="binary"><8409 name="binaryToBase64" match="item" use="binary"><7070 name="binaryToBase64" match="item" use="binary"><4072 name="binaryToBase64" match="item" use="binary"><2468 name="binaryToBase64" match="item" use="binary"><5131 name="binaryToBase64" match="item" use="binary"><2182 name="binaryToBase64" match="item" use="binary"><2310 name="binaryToBase64" match="item" use="binary"><9193 name="binaryToBase64" match="item" use="binary"><399 name="binaryToBase64" match="item" use="binary"><327 name="binaryToBase64" match="item" use="binary"><4191 name="binaryToBase64" match="item" use="binary"><9517 name="binaryToBase64" match="item" use="binary"><6578 name="binaryToBase64" match="item" use="binary"><6314 name="binaryToBase64" match="item" use="binary"><1480 name="binaryToBase64" match="item" use="binary"><6485 name="binaryToBase64" match="item" use="binary"><6299 name="binaryToBase64" match="item" use="binary"><5684 name="binaryToBase64" match="item" use="binary"><3686 name="binaryToBase64" match="item" use="binary"><522 name="binaryToBase64" match="item" use="binary"><4742 name="binaryToBase64" match="item" use="binary"><9763 name="binaryToBase64" match="item" use="binary"><141 name="binaryToBase64" match="item" use="binary"><6396 name="binaryToBase64" match="item" use="binary"><4344 name="binaryToBase64" match="item" use="binary"><4999 name="binaryToBase64" match="item" use="binary"><2844 name="binaryToBase64" match="item" use="binary"><6549 name="binaryToBase64" match="item" use="binary"><7907 name="binaryToBase64" match="item" use="binary"><3852 name="binaryToBase64" match="item" use="binary"><801 name="binaryToBase64" match="item" use="binary"><6781 name="binaryToBase64" match="item" use="binary"><8886 name="binaryToBase64" match="item" use="binary"><7566 name="binaryToBase64" match="item" use="binary"><4290 name="binaryToBase64" match="item" use="binary"><5790 name="binaryToBase64" match="item" use="binary"><5149 name="binaryToBase64" match="item" use="binary"><4574 name="binaryToBase64" match="item" use="binary"><7921 name="binaryToBase64" match="item" use="binary"><4387 name="binaryToBase64" match="item" use="binary"><2553 name="binaryToBase64" match="item" use="binary"><7774 name="binaryToBase64" match="item" use="binary"><3258 name="binaryToBase64" match="item" use="binary"><7071 name="binaryToBase64" match="item" use="binary"><6266 name="binaryToBase64" match="item" use="binary"><9446 name="binaryToBase64" match="item" use="binary"><4201 name="binaryToBase64" match="item" use="binary"><7402 name="binaryToBase64" match="item" use="binary"><7965 name="binaryToBase64" match="item" use="binary"><8251 name="binaryToBase64" match="item" use="binary"><28 name="binaryToBase64" match="item" use="binary"><6834 name="binaryToBase64" match="item" use="binary"><6782 name="binaryToBase64" match="item" use="binary"><9071 name="binaryToBase64" match="item" use="binary"><7198 name="binaryToBase64" match="item" use="binary"><1959 name="binaryToBase64" match="item" use="binary"><5481 name="binaryToBase64" match="item" use="binary"><7901 name="binaryToBase64" match="item" use="binary"><8931 name="binaryToBase64" match="item" use="binary"><3750 name="binaryToBase64" match="item" use="binary"><8896 name="binaryToBase64" match="item" use="binary"><2059 name="binaryToBase64" match="item" use="binary" />
+	</8896>
+	</3750>
+	</8931>
+	</7901>
+	</5481>
+	</1959>
+	</7198>
+	</9071>
+	</6782>
+	</6834>
+	</28>
+	</8251>
+	</7965>
+	</7402>
+	</4201>
+	</9446>
+	</6266>
+	</7071>
+	</3258>
+	</7774>
+	</2553>
+	</4387>
+	</7921>
+	</4574>
+	</5149>
+	</5790>
+	</4290>
+	</7566>
+	</8886>
+	</6781>
+	</801>
+	</3852>
+	</7907>
+	</6549>
+	</2844>
+	</4999>
+	</4344>
+	</6396>
+	</141>
+	</9763>
+	</4742>
+	</522>
+	</3686>
+	</5684>
+	</6299>
+	</6485>
+	</1480>
+	</6314>
+	</6578>
+	</9517>
+	</4191>
+	</327>
+	</399>
+	</9193>
+	</2310>
+	</2182>
+	</5131>
+	</2468>
+	</4072>
+	</7070>
+	</8409>
+	</9113>
+	</1190>
+	</8678>
+	</9595>
+	</5633>
+	</3334>
+	</9275>
+	</3503>
+	</2235>
+	</1887>
+	</1900>
+	</5385>
+	</6567>
+	</9712>
+	</1772>
+	</5009>
+	</4621>
+	</5553>
+	</6452>
+	</6466>
+	</8081>
+	</6774>
+	</2330>
+	</7041>
+	</472>
+	</6937>
+	</ns0:key>
+	</ns0:stylesheet>

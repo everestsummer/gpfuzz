@@ -1,0 +1,670 @@
+<project name="XSLTJSON" default="examples">
+	<property name="xsltjson.build" value="output" />
+	<property name="xsltjson.lib" value="lib" />
+	<property name="xsltjson.config" value="conf" />
+	
+	<path id="saxon.classpath">
+		<fileset dir="${xsltjson.lib}/saxon">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="xalan.classpath">
+		<fileset dir="${xsltjson.lib}/xalan">
+			<include name="*.jar" />
+		</fileset>
+	</path>	
+
+	<target name="init">
+		<mkdir dir="${xsltjson.build}" />
+	</target>
+	
+	<target name="examples" depends="init">
+		<xslt basedir="input/examples" destdir="${xsltjson.build}/examples" extension=".json" style="${xsltjson.config}/xml-to-json.xsl">
+			<classpath>
+				<path refid="saxon.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+	<target name="examples-xalan">
+		<xslt basedir="input/examples" destdir="${xsltjson.build}/examples" extension=".json" style="${xsltjson.config}/xml-to-jsonml.xsl">
+			<classpath>
+				<path refid="xalan.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+
+	<target name="test" depends="init">
+		<xslt basedir="input/tests" destdir="${xsltjson.build}/tests" extension=".xml" style="${xsltjson.config}/test.xsl">
+			<classpath>
+				<path refid="saxon.classpath" />
+			</classpath>
+		</xslt>
+	</target>
+
+	<target name="clean">
+		<delete dir="${xsltjson.build}" />
+	</target>
+<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	</description>
+	
+	<description>
+		Simple project to transform arbitrary XML files to JSON format.
+	<8832>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7942>
+		Simple project to transform arbitrary XML files to JSON format.
+	<1521>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7688>
+		Simple project to transform arbitrary XML files to JSON format.
+	<3928>
+		Simple project to transform arbitrary XML files to JSON format.
+	<8975>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5477>
+		Simple project to transform arbitrary XML files to JSON format.
+	<601>
+		Simple project to transform arbitrary XML files to JSON format.
+	<4575>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5071>
+		Simple project to transform arbitrary XML files to JSON format.
+	<673>
+		Simple project to transform arbitrary XML files to JSON format.
+	<6116>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5921>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9969>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9521>
+		Simple project to transform arbitrary XML files to JSON format.
+	<1205>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9487>
+		Simple project to transform arbitrary XML files to JSON format.
+	<773>
+		Simple project to transform arbitrary XML files to JSON format.
+	<432>
+		Simple project to transform arbitrary XML files to JSON format.
+	<8918>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2892>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5898>
+		Simple project to transform arbitrary XML files to JSON format.
+	<8381>
+		Simple project to transform arbitrary XML files to JSON format.
+	<6415>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2001>
+		Simple project to transform arbitrary XML files to JSON format.
+	<252>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9052>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9595>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7909>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2465>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9544>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2772>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7192>
+		Simple project to transform arbitrary XML files to JSON format.
+	<1740>
+		Simple project to transform arbitrary XML files to JSON format.
+	<6477>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5444>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2095>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9784>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5435>
+		Simple project to transform arbitrary XML files to JSON format.
+	<3575>
+		Simple project to transform arbitrary XML files to JSON format.
+	<724>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9254>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5212>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2495>
+		Simple project to transform arbitrary XML files to JSON format.
+	<4422>
+		Simple project to transform arbitrary XML files to JSON format.
+	<170>
+		Simple project to transform arbitrary XML files to JSON format.
+	<1468>
+		Simple project to transform arbitrary XML files to JSON format.
+	<6652>
+		Simple project to transform arbitrary XML files to JSON format.
+	<8215>
+		Simple project to transform arbitrary XML files to JSON format.
+	<4712>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9446>
+		Simple project to transform arbitrary XML files to JSON format.
+	<4270>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7809>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5990>
+		Simple project to transform arbitrary XML files to JSON format.
+	<3275>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2183>
+		Simple project to transform arbitrary XML files to JSON format.
+	<6222>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9956>
+		Simple project to transform arbitrary XML files to JSON format.
+	<509>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5356>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2417>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9851>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7701>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9080>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5451>
+		Simple project to transform arbitrary XML files to JSON format.
+	<3198>
+		Simple project to transform arbitrary XML files to JSON format.
+	<765>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9688>
+		Simple project to transform arbitrary XML files to JSON format.
+	<9008>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7608>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5293>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5576>
+		Simple project to transform arbitrary XML files to JSON format.
+	<2325>
+		Simple project to transform arbitrary XML files to JSON format.
+	<5317>
+		Simple project to transform arbitrary XML files to JSON format.
+	<7444>
+		Simple project to transform arbitrary XML files to JSON format.
+	<3255>
+		Simple project to transform arbitrary XML files to JSON format.
+	</3255>
+	
+	</7444>
+	
+	</5317>
+	
+	</2325>
+	
+	</5576>
+	
+	</5293>
+	
+	</7608>
+	
+	</9008>
+	
+	</9688>
+	
+	</765>
+	
+	</3198>
+	
+	</5451>
+	
+	</9080>
+	
+	</7701>
+	
+	</9851>
+	
+	</2417>
+	
+	</5356>
+	
+	</509>
+	
+	</9956>
+	
+	</6222>
+	
+	</2183>
+	
+	</3275>
+	
+	</5990>
+	
+	</7809>
+	
+	</4270>
+	
+	</9446>
+	
+	</4712>
+	
+	</8215>
+	
+	</6652>
+	
+	</1468>
+	
+	</170>
+	
+	</4422>
+	
+	</2495>
+	
+	</5212>
+	
+	</9254>
+	
+	</724>
+	
+	</3575>
+	
+	</5435>
+	
+	</9784>
+	
+	</2095>
+	
+	</5444>
+	
+	</6477>
+	
+	</1740>
+	
+	</7192>
+	
+	</2772>
+	
+	</9544>
+	
+	</2465>
+	
+	</7909>
+	
+	</9595>
+	
+	</9052>
+	
+	</252>
+	
+	</2001>
+	
+	</6415>
+	
+	</8381>
+	
+	</5898>
+	
+	</2892>
+	
+	</8918>
+	
+	</432>
+	
+	</773>
+	
+	</9487>
+	
+	</1205>
+	
+	</9521>
+	
+	</9969>
+	
+	</5921>
+	
+	</6116>
+	
+	</673>
+	
+	</5071>
+	
+	</4575>
+	
+	</601>
+	
+	</5477>
+	
+	</8975>
+	
+	</3928>
+	
+	</7688>
+	
+	</1521>
+	
+	</7942>
+	
+	</8832>
+	
+	</description>
+	
+	</project>

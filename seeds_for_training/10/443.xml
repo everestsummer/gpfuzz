@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <link href="http://somewebsite.com" />
+    </head>
+    <body>
+        <h1>I'm not a web developer.</h1>
+    </body>
+
+    <tail>
+        <a href="http://bing.com">Footer link</a>
+    </tail>
+</html>

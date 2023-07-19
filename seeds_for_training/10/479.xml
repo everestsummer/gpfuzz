@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <link href="http://somewebsite.com" />
+    </head>
+    <div id="#lol">
+        <a href="http://google.com">Here is some link...</a>
+    </div>
+
+
+    <tail>
+        <a href="http://bing.com">Footer link</a>
+    </tail>
+</html>
